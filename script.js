@@ -76,7 +76,7 @@ function blowCandles() {
     }, 400);
 }
 
-/* ================== 🎁 الهدايا مع الصور ================== */
+/* ================== 🎁 الهدايا ================== */
 const gifts = [
     {
         image: 'images/gift1.jpg',
@@ -221,51 +221,31 @@ function updateLightbox() {
         `${currentImageIndex + 1} / ${galleryImages.length}`;
 }
 
-/* ================== 🎬 الفيديو الرئيسي ================== */
+/* ================== 🎬 الفيديو الرئيسي (Streamable) ================== */
 function playMainVideo() {
-    const video = document.getElementById('mainVideo');
     const overlay = document.getElementById('videoOverlay');
-    if (!video) return;
-
-    overlay.classList.add('hide');
-    video.volume = 1;
-    video.play().catch(err => console.log('مشكلة تشغيل الفيديو:', err));
-
+    if (overlay) overlay.classList.add('hide');
+    
     if (musicPlaying && bgMusic) bgMusic.pause();
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    const video = document.getElementById('mainVideo');
-    if (!video) return;
-
-    video.addEventListener('ended', () => {
-        document.getElementById('videoOverlay').classList.remove('hide');
-        if (musicPlaying && bgMusic) bgMusic.play().catch(() => {});
-    });
-
-    video.addEventListener('pause', () => {
-        if (video.currentTime === 0 || video.ended) {
-            document.getElementById('videoOverlay').classList.remove('hide');
-        }
-    });
-});
-
-/* ================== 🎥 فيديوهات إضافية ================== */
+/* ================== 🎥 فيديوهات إضافية (Streamable) ================== */
+// ✏️ الروابط من Streamable بصيغة Embed
 const extraVideos = [
     { 
-        src: 'videos/video1.mp4', 
+        src: 'https://streamable.com/e/4d4iz1', 
         poster: 'images/photo1.jpg',
         title: 'قصة كفاح',
         desc: 'أيام المعارك الجميلة'
     },
     { 
-        src: 'videos/video2.mp4', 
+        src: 'https://streamable.com/e/5mx94c', 
         poster: 'images/photo2.jpg',
         title: 'أجمد حفلات ورقص',
         desc: 'تحيات فرانك'
     },
     { 
-        src: 'videos/video3.mp4', 
+        src: 'https://streamable.com/e/5mx94c', 
         poster: 'images/photo3.jpg',
         title: 'أجمد حفلات ورقص',
         desc: 'تحيات يازيد'
@@ -282,10 +262,8 @@ function loadVideoGallery() {
         card.className = 'video-card';
         card.onclick = () => openVideoModal(i);
         card.innerHTML = `
-            <div class="thumb">
-                <video preload="metadata" muted>
-                    <source src="${vid.src}" type="video/mp4">
-                </video>
+            <div class="thumb" style="background-image: url('${vid.poster}'); background-size: cover; background-position: center;">
+                <div style="position:absolute; inset:0; background:rgba(0,0,0,0.4); display:flex; justify-content:center; align-items:center; color:white; font-size:2.5rem;">▶</div>
             </div>
             <div class="info">
                 <h4>🎬 ${vid.title}</h4>
@@ -306,9 +284,15 @@ function openVideoModal(index) {
     };
     modal.innerHTML = `
         <span class="close-video" onclick="this.parentElement.remove()">&times;</span>
-        <video controls autoplay>
-            <source src="${vid.src}" type="video/mp4">
-        </video>
+        <iframe 
+            src="${vid.src}"
+            frameborder="0"
+            width="800"
+            height="450"
+            allowfullscreen
+            allow="autoplay; fullscreen"
+            style="max-width: 90vw; max-height: 85vh;">
+        </iframe>
     `;
 
     document.body.appendChild(modal);
@@ -385,7 +369,7 @@ animate();
 /* ================== ⌨️ اختصارات ================== */
 document.addEventListener('keydown', (e) => {
     if (e.code === 'Space') {
-        if (document.activeElement.tagName !== 'VIDEO') {
+        if (document.activeElement.tagName !== 'IFRAME' && document.activeElement.tagName !== 'VIDEO') {
             e.preventDefault();
             celebrate();
         }
