@@ -58,14 +58,15 @@
         <p class="gallery-hint">فيديو بيجمع أحلى لحظاتنا مع بعض ❤️</p>
 
         <div class="video-wrapper">
-            <video 
-                id="mainVideo" 
-                controls 
-                preload="metadata"
-                poster="images/photo1.jpg">
-                <source src="videos/memories.mp4" type="video/mp4">
-                المتصفح بتاعك مش بيدعم الفيديو 😢
-            </video>
+            <iframe 
+                id="mainVideo"
+                src="https://streamable.com/e/qof2e7"
+                frameborder="0"
+                width="100%"
+                height="400"
+                allowfullscreen
+                allow="autoplay; fullscreen">
+            </iframe>
             <div class="video-overlay" id="videoOverlay" onclick="playMainVideo()">
                 <div class="play-btn">▶</div>
                 <p>اضغط لتشغيل الفيديو</p>
